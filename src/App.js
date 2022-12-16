@@ -1,24 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
-
+import {Routes,Route,BrowserRouter as Router} from 'react-router-dom'
+import Signin from './components/Signin';
+import Signup from './components/Signup';
+import './App.css'
+import Whatsapp from './components/Whatsapp';
+import Sidebar from './components/Sidebar';
+import Chat from './components/Chat';
+import { useState } from 'react';
+import { useStateValue } from './context/userAuth';
+import { UserAuthContextProvider } from './context/userAuth';
+import Login from './components/Login';
 function App() {
+  const [ {user} , dispatch] = useStateValue();
+  
+  // const [user, setuser] = useState(null)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   <>
+    <div className="app">
+   
+          {!user ? (
+          <Login/>
+):(
+  <div className="app_body">
+
+      <Router>
+      <Sidebar user={user}/>
+        <Routes>
+        <Route path='/rooms/:roomId' element={<Chat/>}/>
+        <Route path='/rooms/'/>
+        </Routes>
+      </Router>
+      </div>
+     )} 
+   
+
+      </div>
+
+   
+   </>
   );
 }
 
